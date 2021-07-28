@@ -9,4 +9,9 @@ class karyawan extends Model
 {
     use HasFactory;
     protected $guarded =[];
+    
+    public function golongan()
+    {
+        return $this->hasMany('App\Models\Golongan', 'id_Karyawan');
+    }
 }
