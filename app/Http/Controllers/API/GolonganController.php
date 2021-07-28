@@ -9,35 +9,31 @@ use App\Models\karyawan;
 
 class GolonganController extends Controller
 {
+    public function index()
+    {
+        return Golongan::all();
+    }
     public function create(Request $request)
     {
-        // dd($request->all());
-        $karyawan            = new Karyawan;
-        $karyawan->nama_karyawan      = $request->nama_karyawan;
-        $karyawan->nip    = $request->nip;
-        $karyawan->no_tlpn   = $request->no_tlpn;
-        $karyawan->agama = $request->agama;
-        $karyawan->alamat = $request->alamat;
-        $karyawan->save();
-
         foreach ($request->list_golongan as $key => $value) {
             Golongan::create([
                 'nama_golongan' => $value['nama_golongan'],
                 'gaji_pokok' => $value['gaji_pokok'],
                 'tunjangan_istri' => $value['tunjangan_istri'],
                 'tunjangan_anak' => $value['tunjangan_anak'],
-                'id_Karyawan' => $karyawan->id
+                'id_Karyawan' => $value['id_Karyawan']
             ]);
             $golongan = Golongan::create($golongan);
         }
 
         return response()->json([
-                'message'       => 'success'
+                'message'       => 'success',
+                'data_Karyawan'  => $golongan
             ], 200);
     }
     public function edit($id)
     {
-        $golongan= Golongan::find($id);
+        $karywan = Karyawan::with('golongan')->where('id', $id)->first();
         return response()->json([
                 'message'       => 'success',
                 'data_Karyawan'  => $golongan
@@ -45,24 +41,15 @@ class GolonganController extends Controller
     }
     public function update(Request $request, $id)
     {
-        $golongan= Golongan::find($id)->update;
-        
-        $karyawan            = new Karyawan;
-        $karyawan->nama_karyawan      = $request->nama_karyawan;
-        $karyawan->nip    = $request->nip;
-        $karyawan->no_tlpn   = $request->no_tlpn;
-        $karyawan->agama = $request->agama;
-        $karyawan->alamat = $request->alamat;
-        $karyawan->save();
-
+        $golongan= Golongan::find($id)->update; 
         foreach ($request->list_golongan as $key => $value) {
-            $golongan = array(
+            $golongan->update([
                 'nama_golongan' => $value['nama_golongan'],
                 'gaji_pokok' => $value['gaji_pokok'],
                 'tunjangan_istri' => $value['tunjangan_istri'],
                 'tunjangan_anak' => $value['tunjangan_anak'],
-                'id_Karyawan' => $karyawan->id
-            );
+                'id_Karyawan' => $value['id_Karyawan']
+            ]);
         }
 
 
