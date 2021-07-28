@@ -22,6 +22,7 @@ use App\Http\Controllers\API\GolonganController;
 // });
 Route::group(['middleware' => 'auth:sanctum'], function(){
     //crud karyawan
+    Route::post('/index', [FormController::class, 'index']);
     Route::post('/create', [FormController::class, 'create']);
     Route::get('/edit/{id}', [FormController::class, 'edit']);
     Route::post('/edit/{id}', [FormController::class, 'update']);
@@ -30,9 +31,10 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get('/logout', [AuthController::class, 'logout']);
 });
     //crud score with relation to Golongan
-Route::post('/create-karyawan-golongan', [GolonganController::class, 'create']);
-Route::get('/edit-karyawan-golongan/{id}', [GolonganController::class, 'edit']);
-Route::post('/edit-karyawan-golongan/{id}', [GolonganController::class, 'update']);
+Route::post('/index-golongan', [GolonganController::class, 'index']);
+Route::post('/create-golongan', [GolonganController::class, 'create']);
+Route::get('/edit-golongan/{id}', [GolonganController::class, 'edit']);
+Route::post('/edit-golongan/{id}', [GolonganController::class, 'update']);
 Route::get('/delete-karyawan-golongan/{id}', [GolonganController::class, 'delete']);
     
 Route::post('/login', [AuthController::class, 'login']);
