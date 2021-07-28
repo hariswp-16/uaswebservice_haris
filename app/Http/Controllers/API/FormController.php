@@ -8,6 +8,11 @@ use App\Models\karyawan;
 
 class FormController extends Controller
 {
+    public function index()
+    {
+        return Karyawan::all();
+    }
+    
     public function create(Request $request)
     {
         $request->validate([
